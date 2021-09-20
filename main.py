@@ -4,7 +4,7 @@ file = open('code.c', 'r')
 state = 0 
 lexeme = []
 tokens = []
-special = ['(', ')', '{', '}', ',', ';', '+', '-', '*', '/', '=', ' ', '\n', '\t']
+special = ['(', ')', '{', '}', ',', ';', '+', '-', '*', '/', ' ', '\n', '\t']
 
 RESERVED = {
     'main': 'MAIN',
@@ -24,6 +24,7 @@ RESERVED = {
     ',': 'COMMA',
     ';': 'PCOMMA',
     '=': 'ATTR',
+    '==': 'EQUAL',
     '<': 'LT',
     '<=': 'LTE',
     '>': 'GT',
@@ -55,6 +56,8 @@ for line in file:
                 state = 6
             elif char == '<':
                 state = 5
+            elif char == '=':
+                state = 7
             elif char in special:
                 state = 0
                 word = "".join(lexeme)
@@ -119,5 +122,14 @@ for line in file:
                 i += 1
             else:
                 tokens.append('GT')
+
+        elif state == 7:
+            state = 0
+            lexeme = []
+            if char == '=':
+                tokens.append('EQUAL')
+                i += 1
+            else:
+                tokens.append('ATTR')
 
 print(tokens)
