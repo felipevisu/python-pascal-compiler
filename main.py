@@ -1,12 +1,11 @@
 import string
-import re
+import time
 
 file = open('code.c', 'r')
 state = 0 
 lexeme = []
 tokens = []
-line_number = 1
-special = ['(', ')', '{', '}', ',', ';', '+', '-', '*', '/', ' ', '\n', '\t']
+special = ['(', ')', '{', '}', ',', ';', '+', '-', '*', '/', '=', ' ', '\n', '\t']
 
 RESERVED = {
     'main': 'MAIN',
@@ -18,6 +17,7 @@ RESERVED = {
     'for': 'FOR',
     'read': 'READ',
     'print': 'PRINT',
+    'return': 'RETURN',
     '(': 'LBRACKET',
     ')': 'RBRACKET',
     '{': 'LBRACE',
@@ -60,6 +60,14 @@ for line in file:
             elif char == '<':
                 state = 5
                 lexeme.append(char)
+                i += 1
+            elif char in special:
+                state = 0
+                lexeme.append(char)
+                word = "".join(lexeme)
+                lexeme = []
+                token = RESERVED.get(word, None)
+                tokens.append(token) if token else None
                 i += 1
 
         elif state == 1:
@@ -123,5 +131,11 @@ for line in file:
                 state = 0
                 lexeme = []
                 tokens.append('GT')
-            
-    line_number += 1
+
+        if char.isspace():
+            i += 1
+
+        #time.sleep(1)
+
+
+print(tokens)
