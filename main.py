@@ -1,5 +1,4 @@
 import string
-import time
 
 file = open('code.c', 'r')
 state = 0 
@@ -45,30 +44,23 @@ for line in file:
         char = line[i]
 
         if state == 0:
+            lexeme.append(char)
+            i += 1
+
             if char in string.ascii_letters:
                 state = 1
-                lexeme.append(char)
-                i += 1
             elif char in string.digits:
                 state = 2
-                lexeme.append(char)
-                i += 1
             elif char == '>':
                 state = 6
-                lexeme.append(char)
-                i += 1
             elif char == '<':
                 state = 5
-                lexeme.append(char)
-                i += 1
             elif char in special:
                 state = 0
-                lexeme.append(char)
                 word = "".join(lexeme)
                 lexeme = []
                 token = RESERVED.get(word, None)
                 tokens.append(token) if token else None
-                i += 1
 
         elif state == 1:
             if char in string.ascii_letters or char in string.digits:
@@ -111,31 +103,21 @@ for line in file:
                 tokens.append('FLOAT_CONST')
 
         elif state == 5:
+            state = 0
+            lexeme = []
             if char == '=':
-                state = 0
-                lexeme = []
                 tokens.append('LTE')
                 i += 1
             else:
-                state = 0
-                lexeme = []
                 tokens.append('LT')
 
         elif state == 6:
+            state = 0
+            lexeme = []
             if char == '=':
-                state = 0
-                lexeme = []
                 tokens.append('GTE')
                 i += 1
             else:
-                state = 0
-                lexeme = []
                 tokens.append('GT')
-
-        if char.isspace():
-            i += 1
-
-        #time.sleep(1)
-
 
 print(tokens)
