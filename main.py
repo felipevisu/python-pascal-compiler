@@ -1,30 +1,40 @@
 import string
 
-file = open('code.c', 'r')
+file = open('code.pas', 'r')
 state = 0 
 lexeme = []
 tokens = []
-special = ['(', ')', '{', '}', ',', ';', '+', '-', '*', '/', ' ', '\n', '\t']
 
 RESERVED = {
-    'main': 'MAIN',
-    'int': 'INT',
-    'float': 'FLOAT',
+    'program': 'PROGRAM',
+    'begin': 'BEGIN',
+    'end': 'END',
+    'var': 'VAR',
+    'boolean': 'BOOLEAN',
+    'integer': 'INTEGER',
+    'real': 'REAL',
+    'string': 'STRING',
     'if': 'IF',
-    'else': 'ELSE',
-    'while': 'WHILE',
+    'then': 'THEN',
     'for': 'FOR',
+    'while': 'WHILE',
+    'do': 'DO',
     'read': 'READ',
     'print': 'PRINT',
-    'return': 'RETURN',
+    'true': 'TRUE',
+    'false': 'FALSE',
     '(': 'LBRACKET',
     ')': 'RBRACKET',
     '{': 'LBRACE',
     '}': 'RBRACE',
+    '[': 'LCOL',
+    ']': 'RCOL',
     ',': 'COMMA',
     ';': 'PCOMMA',
-    '=': 'ATTR',
+    ':': 'COLON',
+    ':=': 'ATTR',
     '==': 'EQUAL',
+    '!=': 'DIFERENT',
     '<': 'LT',
     '<=': 'LTE',
     '>': 'GT',
@@ -33,8 +43,6 @@ RESERVED = {
     '-': 'MINUS',
     '*': 'MULT',
     '/': 'DIV',
-    '[': 'LCOL',
-    ']': 'RCOL'
 }
 
 for line in file:
@@ -58,7 +66,11 @@ for line in file:
                 state = 5
             elif char == '=':
                 state = 7
-            elif char in special:
+            elif char == '!':
+                state = 8
+            elif char == ':':
+                state = 9
+            else:
                 state = 0
                 word = "".join(lexeme)
                 lexeme = []
@@ -66,7 +78,7 @@ for line in file:
                 tokens.append(token) if token else None
 
         elif state == 1:
-            if char in string.ascii_letters or char in string.digits:
+            if char in string.ascii_letters or char in string.digits or char == '_':
                 state = 1
                 lexeme.append(char)
                 i += 1
@@ -95,6 +107,9 @@ for line in file:
             if char in string.digits:
                 state = 4
                 i += 1
+            else:
+                # error
+                pass
         
         elif state == 4:
             if char in string.digits:
@@ -130,6 +145,26 @@ for line in file:
                 tokens.append('EQUAL')
                 i += 1
             else:
+                # error
+                pass
+
+        elif state == 8:
+            state = 0
+            lexeme = []
+            if char == '=':
+                tokens.append('DIFERENT')
+                i += 1
+            else:
+                # error
+                pass
+
+        elif state == 9:
+            state = 0
+            lexeme = []
+            i += 1
+            if char == '=':
                 tokens.append('ATTR')
+            else:
+                tokens.append('COLLON')
 
 print(tokens)
