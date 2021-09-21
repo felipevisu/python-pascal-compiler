@@ -4,6 +4,8 @@ file = open('code.pas', 'r')
 state = 0 
 lexeme = []
 tokens = []
+errors = []
+line_index = 0
 
 RESERVED = {
     'program': 'PROGRAM',
@@ -16,6 +18,7 @@ RESERVED = {
     'string': 'STRING',
     'if': 'IF',
     'then': 'THEN',
+    'else': 'ELSE',
     'for': 'FOR',
     'while': 'WHILE',
     'do': 'DO',
@@ -48,6 +51,7 @@ RESERVED = {
 for line in file:
     line = line.rstrip('\n')
     i = 0
+    line_index += 1
 
     while i < len(line):
         char = line[i]
@@ -60,23 +64,29 @@ for line in file:
                 state = 1
             elif char in string.digits:
                 state = 2
-            elif char == '>':
-                state = 6
             elif char == '<':
                 state = 5
+            elif char == '>':
+                state = 6
             elif char == '=':
                 state = 7
             elif char == '!':
                 state = 8
             elif char == ':':
                 state = 9
+            elif char == '"':
+                state = 10
             else:
                 state = 0
                 word = "".join(lexeme)
                 lexeme = []
                 token = RESERVED.get(word, None)
-                tokens.append(token) if token else None
+                if token:
+                    tokens.append(token)
+                elif not char.isspace():
+                    errors.append((line_index, i))
 
+        # string
         elif state == 1:
             if char in string.ascii_letters or char in string.digits or char == '_':
                 state = 1
@@ -89,6 +99,7 @@ for line in file:
                 token = RESERVED.get(word, None)
                 tokens.append(token) if token else tokens.append('ID')
 
+        # integer
         elif state == 2:
             if char in string.digits:
                 state = 2
@@ -103,14 +114,16 @@ for line in file:
                 lexeme = []
                 tokens.append('INTEGER_CONST')
 
+        # real point
         elif state == 3:
             if char in string.digits:
                 state = 4
                 i += 1
             else:
-                # error
-                pass
+                errors.append((line_index, i))
+                state = 0
         
+        # real digitis
         elif state == 4:
             if char in string.digits:
                 state = 4
@@ -120,6 +133,7 @@ for line in file:
                 lexeme = []
                 tokens.append('FLOAT_CONST')
 
+        # < or <=
         elif state == 5:
             state = 0
             lexeme = []
@@ -129,6 +143,7 @@ for line in file:
             else:
                 tokens.append('LT')
 
+        # > or >=
         elif state == 6:
             state = 0
             lexeme = []
@@ -138,6 +153,7 @@ for line in file:
             else:
                 tokens.append('GT')
 
+        # ==
         elif state == 7:
             state = 0
             lexeme = []
@@ -145,9 +161,10 @@ for line in file:
                 tokens.append('EQUAL')
                 i += 1
             else:
-                # error
-                pass
+                errors.append((line_index, i))
+                state = 0
 
+        # !=
         elif state == 8:
             state = 0
             lexeme = []
@@ -155,9 +172,10 @@ for line in file:
                 tokens.append('DIFERENT')
                 i += 1
             else:
-                # error
-                pass
+                errors.append((line_index, i))
+                state = 0
 
+        # :=
         elif state == 9:
             state = 0
             lexeme = []
@@ -167,4 +185,24 @@ for line in file:
             else:
                 tokens.append('COLLON')
 
+        # string
+        elif state == 10:
+            lexeme.append(char)
+            i = i+1
+            if (
+                char in string.ascii_letters
+                or char in string.digits
+                or char in ['_', ',', '?', '#']
+            ):
+                state = 10
+            elif char == '"':
+                state = 0
+                lexeme = []
+                tokens.append("STRING_CONST")
+            else:
+                errors.append((line_index, i))
+                state = 0
+
+
 print(tokens)
+print(errors)
