@@ -1,5 +1,5 @@
 program calc;
-var x,y,z: real; 
+var x, y, z: real; 
 var nome, endereco: string;
 begin 
 	x := 3.15;
