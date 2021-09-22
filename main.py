@@ -5,7 +5,9 @@ state = 0
 lexeme = []
 tokens = []
 errors = []
+symbol_table = {}
 line_index = 0
+id_index = 0
 
 RESERVED = {
     'program': 'PROGRAM',
@@ -83,7 +85,7 @@ for line in file:
                 token = RESERVED.get(word, None)
                 if token:
                     tokens.append(token)
-                elif not char.isspace():
+                elif not char.isspace() and char != '.':
                     errors.append((line_index, i))
 
         # string
@@ -97,7 +99,13 @@ for line in file:
                 word = "".join(lexeme)
                 lexeme = []
                 token = RESERVED.get(word, None)
-                tokens.append(token) if token else tokens.append('ID')
+                if not token:
+                    token = symbol_table.get(word, None)
+                    if not token:
+                        token = f"ID_{id_index}"
+                        id_index += 1
+                        symbol_table[word] = token
+                tokens.append(token)
 
         # integer
         elif state == 2:
@@ -205,4 +213,5 @@ for line in file:
 
 
 print(tokens)
+print(symbol_table)
 print(errors)
