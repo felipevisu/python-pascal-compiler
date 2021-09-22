@@ -1,11 +1,10 @@
-program calc;   	
-
-var x,y,z: real; 
+program calc    	
+var x,y z: real; 
 var nome, endereco: string;
-
 begin 
-	x := 3.15;
+	x = 3.15;
 	y := 2.4;
+	w := 100;
 	if x then
 		z := x - y; 
 	end

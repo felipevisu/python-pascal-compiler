@@ -1,7 +1,7 @@
 import string
-import sys 
+import sys
 
-file = open('code1.pas', 'r')
+file = open(sys.argv[1], 'r')
 state = 0 
 lexeme = []
 tokens = []
@@ -214,4 +214,3 @@ for line in file:
 
 
 print(tokens)
-print(errors)
