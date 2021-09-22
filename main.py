@@ -1,11 +1,11 @@
 import string
+import sys 
 
-file = open('code.pas', 'r')
+file = open('code1.pas', 'r')
 state = 0 
 lexeme = []
 tokens = []
 errors = []
-symbol_table = {}
 line_index = 0
 id_index = 0
 
@@ -36,8 +36,8 @@ RESERVED = {
     ']': 'RCOL',
     ',': 'COMMA',
     ';': 'PCOMMA',
-    ':': 'COLON',
-    ':=': 'ATTR',
+    ':': 'TWOPOINT',
+    ':=': 'ASSIGN',
     '==': 'EQUAL',
     '!=': 'DIFERENT',
     '<': 'LT',
@@ -57,6 +57,10 @@ for line in file:
 
     while i < len(line):
         char = line[i]
+
+        if len(errors) > 0:
+            print(errors)
+            sys.exit()
 
         if state == 0:
             lexeme.append(char)
@@ -88,7 +92,7 @@ for line in file:
                 elif not char.isspace() and char != '.':
                     errors.append((line_index, i))
 
-        # string
+        # operator or reserved word
         elif state == 1:
             if char in string.ascii_letters or char in string.digits or char == '_':
                 state = 1
@@ -100,11 +104,8 @@ for line in file:
                 lexeme = []
                 token = RESERVED.get(word, None)
                 if not token:
-                    token = symbol_table.get(word, None)
-                    if not token:
-                        token = f"ID_{id_index}"
-                        id_index += 1
-                        symbol_table[word] = token
+                    token = "ID"
+                    id_index += 1
                 tokens.append(token)
 
         # integer
@@ -189,9 +190,9 @@ for line in file:
             lexeme = []
             i += 1
             if char == '=':
-                tokens.append('ATTR')
+                tokens.append('ASSIGN')
             else:
-                tokens.append('COLLON')
+                tokens.append('TWOPOINT')
 
         # string
         elif state == 10:
@@ -200,18 +201,17 @@ for line in file:
             if (
                 char in string.ascii_letters
                 or char in string.digits
-                or char in ['_', ',', '?', '#']
+                or char in ['_', ',', '?', '#', ' ']
             ):
                 state = 10
             elif char == '"':
                 state = 0
                 lexeme = []
-                tokens.append("STRING_CONST")
+                tokens.append("STRING_LITERAL")
             else:
                 errors.append((line_index, i))
                 state = 0
 
 
 print(tokens)
-print(symbol_table)
 print(errors)
