@@ -69,11 +69,9 @@ class Scanner:
     def printter(self):
         x = PrettyTable()
         x.field_names = ["Token", "Valor", "Linha"]
-        x.add_rows(
-            [
-                [token.token, token.value, token.row] for token in self.tokens
-            ]
-        )
+        x.add_rows([
+            [token.token, token.value, token.row] for token in self.tokens
+        ])
         print(x)
 
     def scan(self):
