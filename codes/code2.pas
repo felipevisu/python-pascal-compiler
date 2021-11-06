@@ -1,6 +1,6 @@
 program prog2; 
 var flag: boolean;
-var cont: integer; 
+var cont: integer;
 begin 
 	cont := 0;
 	flag := true; 

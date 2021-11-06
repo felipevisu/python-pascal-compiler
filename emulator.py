@@ -49,8 +49,8 @@ class Parser:
         if self.current.type == 'REAL':
             self.match('REAL')
 
-        if self.current.type == 'INTERGER':
-            self.match('INTERGER')
+        if self.current.type == 'INTEGER':
+            self.match('INTEGER')
 
         if self.current.type == 'STRING':
             self.match('STRING')
@@ -85,6 +85,8 @@ class Parser:
                 self.while_statement()
             elif self.current.type  == 'PRINT':
                 self.print()
+            elif self.current.type  == 'READ':
+                self.read()
             elif self.current.type == 'ID':
                 self.match('ID')
 
@@ -149,6 +151,11 @@ class Parser:
         self.match('RBRACKET')
         self.match('PCOMMA')
 
+    def read(self):
+        self.match('READ')
+        self.match('ID')
+        self.match('PCOMMA')
+
     def logic(self):
         print('logic', self.current.type)
         if self.current.type == 'LT':
@@ -207,11 +214,19 @@ class Parser:
 
         if self.current.type == 'INTEGER_CONST':
             self.match('INTEGER_CONST')
-            return 
+            return
 
         if self.current.type == 'FLOAT_CONST':
             self.match('FLOAT_CONST')
-            return 
+            return
+
+        if self.current.type == 'TRUE':
+            self.match('TRUE')
+            return
+
+        if self.current.type == 'FALSE':
+            self.match('FALSE')
+            return
 
         if self.current.type == 'LBRACKET':
             self.match('LBRACKET')
