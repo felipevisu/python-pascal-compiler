@@ -18,6 +18,7 @@ RESERVED = {
     'for': 'FOR',
     'while': 'WHILE',
     'do': 'DO',
+    'to': 'TO',
     'read': 'READ',
     'print': 'PRINT',
     'true': 'TRUE',
@@ -45,9 +46,9 @@ RESERVED = {
 }
 
 class Token:
-    def __init__(self, token, value, row):
-        self.token = token
-        self.value = value
+    def __init__(self, type, lexeme, row):
+        self.type = type
+        self.lexeme = lexeme
         self.row = row
 
 
@@ -60,7 +61,7 @@ class Scanner:
         self.lexeme = []
         self.state = 0
 
-    def get_word(self):
+    def get_lexeme(self):
         return "".join(self.lexeme)
 
     def clean_lexeme(self):
@@ -68,9 +69,9 @@ class Scanner:
 
     def printter(self):
         x = PrettyTable()
-        x.field_names = ["Token", "Valor", "Linha"]
+        x.field_names = ["Type", "Lexema", "Linha"]
         x.add_rows([
-            [token.token, token.value, token.row] for token in self.tokens
+            [token.type, token.lexeme, token.row] for token in self.tokens
         ])
         print(x)
 
@@ -110,12 +111,12 @@ class Scanner:
                     elif char == '"':
                         self.state = 10
                     else:
-                        word = self.get_word()
+                        lexeme = self.get_lexeme()
                         self.clean_lexeme()
-                        token = RESERVED.get(word, None)
-                        if token:
+                        type = RESERVED.get(lexeme, None)
+                        if type:
                             self.state = 0
-                            self.tokens.append(Token(token, word, row))
+                            self.tokens.append(Token(type, lexeme, row))
                         elif not char.isspace() and char != '.':
                             self.errors.append((row, i))
 
@@ -127,12 +128,12 @@ class Scanner:
                         i += 1
                     else:
                         self.state = 0
-                        word = self.get_word()
+                        lexeme = self.get_lexeme()
                         self.clean_lexeme()
-                        token = RESERVED.get(word, None)
-                        if not token:
-                            token = "ID"
-                        self.tokens.append(Token(token, word, row))
+                        type = RESERVED.get(lexeme, None)
+                        if not type:
+                            type = "ID"
+                        self.tokens.append(Token(type, lexeme, row))
 
                 # integer
                 elif self.state == 2:
@@ -146,10 +147,10 @@ class Scanner:
                         i += 1
                     else:
                         self.state = 0
-                        word = self.get_word()
+                        lexeme = self.get_lexeme()
                         self.clean_lexeme()
-                        token = 'INTEGER_CONST'
-                        self.tokens.append(Token(token, word, row))
+                        type = 'INTEGER_CONST'
+                        self.tokens.append(Token(type, lexeme, row))
 
                 # real point
                 elif self.state == 3:
@@ -168,43 +169,43 @@ class Scanner:
                         i += 1
                     else:
                         self.state = 0
-                        word = self.get_word()
+                        lexeme = self.get_lexeme()
                         self.clean_lexeme()
-                        token = 'FLOAT_CONST'
-                        self.tokens.append(Token(token, word, row))
+                        type = 'FLOAT_CONST'
+                        self.tokens.append(Token(type, lexeme, row))
 
                 # < or <=
                 elif self.state == 5:
                     self.state = 0
                     if char == '=':
-                        token = 'LTE'
+                        type = 'LTE'
                         i += 1
                     else:
-                        token = 'LT'
-                    word = self.get_word()
+                        type = 'LT'
+                    lexeme = self.get_lexeme()
                     self.clean_lexeme()
-                    self.tokens.append(Token(token, word, row))
+                    self.tokens.append(Token(type, lexeme, row))
 
                 # > or >=
                 elif self.state == 6:
                     self.state = 0
                     if char == '=':
-                        token = 'GTE'
+                        type = 'GTE'
                         i += 1
                     else:
-                        token = 'GT'
-                    word = self.get_word()
+                        type = 'GT'
+                    lexeme = self.get_lexeme()
                     self.clean_lexeme()
-                    self.tokens.append(Token(token, word, row))
+                    self.tokens.append(Token(type, lexeme, row))
 
                 # ==
                 elif self.state == 7:
                     self.state = 0
-                    word = self.get_word()
+                    lexeme = self.get_lexeme()
                     self.clean_lexeme()
                     if char == '=':
-                        token = 'EQUAL'
-                        self.tokens.append(Token(token, word, row))
+                        type = 'EQUAL'
+                        self.tokens.append(Token(type, lexeme, row))
                         i += 1
                     else:
                         self.errors.append((row, i))
@@ -212,11 +213,11 @@ class Scanner:
                 # !=
                 elif self.state == 8:
                     self.state = 0
-                    word = self.get_word()
+                    lexeme = self.get_lexeme()
                     self.clean_lexeme()
                     if char == '=':
-                        token = 'DIFERENT'
-                        self.tokens.append(Token(token, word, row))
+                        type = 'DIFERENT'
+                        self.tokens.append(Token(type, lexeme, row))
                         i += 1
                     else:
                         self.errors.append((row, i))
@@ -224,15 +225,15 @@ class Scanner:
                 # :=
                 elif self.state == 9:
                     self.lexeme.append(char)
-                    word = self.get_word()
+                    lexeme = self.get_lexeme()
                     self.clean_lexeme()
                     self.state = 0
                     i += 1
                     if char == '=':
-                        token = 'ASSIGN'
+                        type = 'ASSIGN'
                     else:
-                        token = 'TWOPOINT'
-                    self.tokens.append(Token(token, word, row))
+                        type = 'TWOPOINT'
+                    self.tokens.append(Token(type, lexeme, row))
 
                 # string
                 elif self.state == 10:
@@ -246,9 +247,9 @@ class Scanner:
                         self.state = 10
                     elif char == '"':
                         self.state = 0
-                        word = self.get_word()
+                        lexeme = self.get_lexeme()
                         self.clean_lexeme()
-                        token = "STRING_LITERAL"
-                        self.tokens.append(Token(token, word, row))
+                        type = "STRING_LITERAL"
+                        self.tokens.append(Token(type, lexeme, row))
                     else:
                         self.errors.append((row, i))
