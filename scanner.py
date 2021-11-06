@@ -51,6 +51,9 @@ class Token:
         self.lexeme = lexeme
         self.row = row
 
+    def __str__(self):
+        return f'Type: {self.type}, Lexeme: {self.lexeme}, Row: {self.lexeme}'
+
 
 class Scanner:
     def __init__(self, file_path):
@@ -69,7 +72,7 @@ class Scanner:
 
     def printter(self):
         x = PrettyTable()
-        x.field_names = ["Type", "Lexema", "Linha"]
+        x.field_names = ["Type", "Lexeme", "Row"]
         x.add_rows([
             [token.type, token.lexeme, token.row] for token in self.tokens
         ])

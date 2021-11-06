@@ -7,7 +7,7 @@ begin
 	cont := 0;
 	flag := true; 
 	x := 3.7;
-	y:= 0.45;      
+	y := 0.45;      
 	teste := "Estou aqui"; 
 	print x / y;   
 	read input; 
