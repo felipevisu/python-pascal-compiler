@@ -9,7 +9,7 @@ begin
 	x := 3.7;
 	y:= 0.45;      
 	teste := "Estou aqui"; 
-	print x / y;   
+	print (x / y);   
 	read input; 
 	while flag do 
 		cont := cont + 1;

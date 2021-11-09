@@ -20,7 +20,7 @@ RESERVED = {
     'do': 'DO',
     'to': 'TO',
     'read': 'READ',
-    'print': 'PRINT',
+    'write': 'WRITE',
     'true': 'TRUE',
     'false': 'FALSE',
     '(': 'LBRACKET',
@@ -44,6 +44,8 @@ RESERVED = {
     '*': 'MULT',
     '/': 'DIV',
 }
+
+RESERVED_REVERSED = {v: k for k, v in RESERVED.items()}
 
 class Token:
     def __init__(self, type, lexeme, row):
@@ -71,12 +73,12 @@ class Scanner:
         self.lexeme = []
 
     def printter(self):
-        x = PrettyTable()
-        x.field_names = ["Type", "Lexeme", "Row"]
-        x.add_rows([
+        tokens = PrettyTable()
+        tokens.field_names = ["Type", "Lexeme", "Row"]
+        tokens.add_rows([
             [token.type, token.lexeme, token.row] for token in self.tokens
         ])
-        print(x)
+        return tokens
 
     def scan(self):
         row = 0
@@ -172,7 +174,7 @@ class Scanner:
                         i += 1
                     else:
                         self.state = 0
-                        lexeme = self.get_lexeme()
+                        lexeme = self.get_lexeme().replace(';', '')
                         self.clean_lexeme()
                         type = 'FLOAT_CONST'
                         self.tokens.append(Token(type, lexeme, row))
