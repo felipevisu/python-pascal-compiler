@@ -1,0 +1,108 @@
+VETOR DE TOKENS
++---------------+---------+-----+
+|      Type     |  Lexeme | Row |
++---------------+---------+-----+
+|    PROGRAM    | program |  1  |
+|       ID      |  teste6 |  1  |
+|     PCOMMA    |    ;    |  1  |
+|      VAR      |   var   |  2  |
+|       ID      |  count  |  2  |
+|     COMMA     |    ,    |  2  |
+|       ID      |  input  |  2  |
+|    TWOPOINT   |    :    |  2  |
+|    INTEGER    | integer |  2  |
+|     PCOMMA    |    ;    |  2  |
+|      VAR      |   var   |  3  |
+|       ID      |    x    |  3  |
+|    TWOPOINT   |    :    |  3  |
+|      REAL     |   real  |  3  |
+|     PCOMMA    |    ;    |  3  |
+|     BEGIN     |  begin  |  4  |
+|       ID      |    x    |  5  |
+|     ASSIGN    |    :=   |  5  |
+|  FLOAT_CONST  |   3.7   |  5  |
+|     PCOMMA    |    ;    |  5  |
+|      FOR      |   for   |  6  |
+|       ID      |  count  |  6  |
+|     ASSIGN    |    :=   |  6  |
+| INTEGER_CONST |    0    |  6  |
+|       TO      |    to   |  6  |
+| INTEGER_CONST |    10   |  6  |
+|       DO      |    do   |  7  |
+|      READ     |   read  |  7  |
+|       ID      |  input  |  7  |
+|     PCOMMA    |    ;    |  7  |
+|       ID      |    x    |  8  |
+|     ASSIGN    |    :=   |  8  |
+|       ID      |    x    |  8  |
+|      PLUS     |    +    |  8  |
+|       ID      |  input  |  8  |
+|     PCOMMA    |    ;    |  8  |
+|     WRITE     |  write  |  9  |
+|       ID      |    x    |  9  |
+|     PCOMMA    |    ;    |  9  |
+|      END      |   end   |  10 |
++---------------+---------+-----+
+
+TABELA DE SIMBOLOS
++-------+---------+-------+---------+
+|  Name |   Type  | Value | Address |
++-------+---------+-------+---------+
+| count | INTEGER |   0   |    0    |
+| input | INTEGER |  None |    4    |
+|   x   |   REAL  |  3.7  |    8    |
++-------+---------+-------+---------+
+
+ERROS
++-------+-----+---------+
+| Value | Row | Message |
++-------+-----+---------+
++-------+-----+---------+
+
+SEQUÊNCIA DE COMPILAÇÃO
++---------------+------------------+
+|     Token     |     Function     |
++---------------+------------------+
+|    PROGRAM    |     program      |
+|       ID      |     program      |
+|     PCOMMA    |     program      |
+|      VAR      |   declaration    |
+|       ID      |     var_list     |
+|     COMMA     |     var_list     |
+|       ID      |     var_list     |
+|    TWOPOINT   |     var_list     |
+|    INTEGER    |       type       |
+|     PCOMMA    |   declaration    |
+|      VAR      |   declaration    |
+|       ID      |     var_list     |
+|    TWOPOINT   |     var_list     |
+|      REAL     |       type       |
+|     PCOMMA    |   declaration    |
+|     BEGIN     |      block       |
+|       ID      |     command      |
+|     ASSIGN    |     command      |
+|  FLOAT_CONST  |      factor      |
+|     PCOMMA    |     command      |
+|      FOR      |  for_statement   |
+|       ID      |     command      |
+|     ASSIGN    |     command      |
+| INTEGER_CONST |      factor      |
+|       TO      |  for_statement   |
+| INTEGER_CONST |      factor      |
+|       DO      |  for_statement   |
+|      READ     |       read       |
+|       ID      |       read       |
+|     PCOMMA    |       read       |
+|       ID      |      factor      |
+|     ASSIGN    |     command      |
+|       ID      |      factor      |
+|      PLUS     | expression_prime |
+|       ID      |      factor      |
+|     PCOMMA    |     command      |
+|     WRITE     |      write       |
+|       ID      |      factor      |
+|     PCOMMA    |      write       |
+|      END      |     command      |
+|      END      |     command      |
++---------------+------------------+
+

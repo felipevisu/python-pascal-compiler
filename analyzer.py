@@ -2,16 +2,7 @@ from inspect import currentframe, getframeinfo
 from prettytable import PrettyTable
 
 from scanner import RESERVED_REVERSED
-
-class Error:
-    def __init__(self, token, row, message):
-        self.token = token
-        self.row = row
-        self.message = message
-
-    def __str__(self):
-        return f'Item: {self.token}, Row: {self.row}, Message: {self.message}'
-
+from utils import Error
 
 class Symble:
     def __init__(self, name, type, address):
@@ -34,12 +25,12 @@ class Matche:
 
 
 class Parser:
-    def __init__(self, tokens):
+    def __init__(self, tokens, errors):
         self.tokens = tokens
         self.current = tokens[0]
         self.index = 0
         self.size = len(tokens)
-        self.errors = []
+        self.errors = errors
         self.symtable = []
         self.matches = []
         self.address = 0
@@ -93,6 +84,8 @@ class Parser:
 
                 if error:
                     self.errors.append(Error(lexeme, self.current.row, 'Invalid type'))
+
+                return
 
     def printter(self):
         matches = PrettyTable()

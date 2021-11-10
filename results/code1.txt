@@ -1,0 +1,130 @@
+VETOR DE TOKENS
++----------------+--------------------------+-----+
+|      Type      |          Lexeme          | Row |
++----------------+--------------------------+-----+
+|    PROGRAM     |         program          |  1  |
+|       ID       |           calc           |  1  |
+|     PCOMMA     |            ;             |  1  |
+|      VAR       |           var            |  2  |
+|       ID       |            x             |  2  |
+|     COMMA      |            ,             |  2  |
+|       ID       |            y             |  2  |
+|       ID       |            z             |  2  |
+|    TWOPOINT    |            :             |  2  |
+|      REAL      |           real           |  2  |
+|     PCOMMA     |            ;             |  2  |
+|      VAR       |           var            |  3  |
+|       ID       |           nome           |  3  |
+|     COMMA      |            ,             |  3  |
+|       ID       |         endereco         |  3  |
+|    TWOPOINT    |            :             |  3  |
+|     STRING     |          string          |  3  |
+|     PCOMMA     |            ;             |  3  |
+|     BEGIN      |          begin           |  4  |
+|       ID       |            x             |  5  |
+|  FLOAT_CONST   |           3.15           |  5  |
+|     PCOMMA     |            ;             |  5  |
+|       ID       |            y             |  6  |
+|     ASSIGN     |            :=            |  6  |
+|  FLOAT_CONST   |           2.4            |  6  |
+|     PCOMMA     |            ;             |  6  |
+|       ID       |            w             |  7  |
+|     ASSIGN     |            :=            |  7  |
+| INTEGER_CONST  |           100            |  7  |
+|     PCOMMA     |            ;             |  7  |
+|       IF       |            if            |  8  |
+|       ID       |            x             |  8  |
+|      THEN      |           then           |  9  |
+|       ID       |            z             |  9  |
+|     ASSIGN     |            :=            |  9  |
+|       ID       |            x             |  9  |
+|     MINUS      |            -             |  9  |
+|       ID       |            y             |  9  |
+|     PCOMMA     |            ;             |  9  |
+|      END       |           end            |  11 |
+|       ID       |           nome           |  11 |
+|     ASSIGN     |            :=            |  11 |
+| STRING_LITERAL |  "skdfkm23235FNFOWOF?"   |  11 |
+|     PCOMMA     |            ;             |  11 |
+|       ID       |         endereco         |  12 |
+|     ASSIGN     |            :=            |  12 |
+| STRING_LITERAL | "Rua Fulad_2 139, 234 #" |  12 |
+|     PCOMMA     |            ;             |  12 |
+|      END       |           end            |  13 |
++----------------+--------------------------+-----+
+
+TABELA DE SIMBOLOS
++----------+--------+--------------------------+---------+
+|   Name   |  Type  |          Value           | Address |
++----------+--------+--------------------------+---------+
+|    x     |  REAL  |           None           |    0    |
+|    y     |  REAL  |           2.4            |    4    |
+|    z     |  REAL  |            x             |    8    |
+|   nome   | STRING |  "skdfkm23235FNFOWOF?"   |    12   |
+| endereco | STRING | "Rua Fulad_2 139, 234 #" |    16   |
++----------+--------+--------------------------+---------+
+
+ERROS
++-------+-----+---------------------+
+| Value | Row |       Message       |
++-------+-----+---------------------+
+|   =   |  5  |    Lexical error    |
+|   w   |  7  | Undeclared variable |
++-------+-----+---------------------+
+
+SEQUÊNCIA DE COMPILAÇÃO
++----------------+------------------+
+|     Token      |     Function     |
++----------------+------------------+
+|    PROGRAM     |     program      |
+|       ID       |     program      |
+|     PCOMMA     |     program      |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|     COMMA      |     var_list     |
+|       ID       |     var_list     |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|      REAL      |       type       |
+|     PCOMMA     |   declaration    |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|     COMMA      |     var_list     |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|     STRING     |       type       |
+|     PCOMMA     |   declaration    |
+|     BEGIN      |      block       |
+|       ID       |     command      |
+|  FLOAT_CONST   |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|  FLOAT_CONST   |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+| INTEGER_CONST  |      factor      |
+|     PCOMMA     |     command      |
+|       IF       |   if_statement   |
+|       ID       |      factor      |
+|      THEN      |   if_statement   |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|       ID       |      factor      |
+|     MINUS      | expression_prime |
+|       ID       |      factor      |
+|     PCOMMA     |     command      |
+|      END       |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+| STRING_LITERAL |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+| STRING_LITERAL |      factor      |
+|     PCOMMA     |     command      |
+|      END       |     command      |
+|      END       |     command      |
++----------------+------------------+
+

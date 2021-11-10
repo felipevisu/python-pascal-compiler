@@ -1,0 +1,240 @@
+VETOR DE TOKENS
++----------------+--------------+-----+
+|      Type      |    Lexeme    | Row |
++----------------+--------------+-----+
+|    PROGRAM     |   program    |  1  |
+|       ID       |    teste4    |  1  |
+|     PCOMMA     |      ;       |  1  |
+|      VAR       |     var      |  2  |
+|       ID       |     flag     |  2  |
+|    TWOPOINT    |      :       |  2  |
+|    BOOLEAN     |   boolean    |  2  |
+|     PCOMMA     |      ;       |  2  |
+|      VAR       |     var      |  3  |
+|       ID       |     cont     |  3  |
+|     COMMA      |      ,       |  3  |
+|       ID       |    input     |  3  |
+|    TWOPOINT    |      :       |  3  |
+|    INTEGER     |   integer    |  3  |
+|     PCOMMA     |      ;       |  3  |
+|      VAR       |     var      |  4  |
+|       ID       |      x       |  4  |
+|     COMMA      |      ,       |  4  |
+|       ID       |      y       |  4  |
+|     COMMA      |      ,       |  4  |
+|       ID       |      z       |  4  |
+|    TWOPOINT    |      :       |  4  |
+|      REAL      |     real     |  4  |
+|     PCOMMA     |      ;       |  4  |
+|      VAR       |     var      |  5  |
+|       ID       |    teste     |  5  |
+|    TWOPOINT    |      :       |  5  |
+|     STRING     |    string    |  5  |
+|     PCOMMA     |      ;       |  5  |
+|     BEGIN      |    begin     |  6  |
+|       ID       |     cont     |  7  |
+|     ASSIGN     |      :=      |  7  |
+| INTEGER_CONST  |      0       |  7  |
+|     PCOMMA     |      ;       |  7  |
+|       ID       |     flag     |  8  |
+|     ASSIGN     |      :=      |  8  |
+|      TRUE      |     true     |  8  |
+|     PCOMMA     |      ;       |  8  |
+|       ID       |      x       |  9  |
+|     ASSIGN     |      :=      |  9  |
+|  FLOAT_CONST   |     3.7      |  9  |
+|     PCOMMA     |      ;       |  9  |
+|       ID       |      y       |  10 |
+|     ASSIGN     |      :=      |  10 |
+|  FLOAT_CONST   |     0.45     |  10 |
+|     PCOMMA     |      ;       |  10 |
+|       ID       |    teste     |  11 |
+|     ASSIGN     |      :=      |  11 |
+| STRING_LITERAL | "Estou aqui" |  11 |
+|     PCOMMA     |      ;       |  11 |
+|     WRITE      |    write     |  12 |
+|    LBRACKET    |      (       |  12 |
+|       ID       |      x       |  12 |
+|      DIV       |      /       |  12 |
+|       ID       |      y       |  12 |
+|    RBRACKET    |      )       |  12 |
+|     PCOMMA     |      ;       |  12 |
+|      READ      |     read     |  13 |
+|       ID       |    input     |  13 |
+|     PCOMMA     |      ;       |  13 |
+|     WHILE      |    while     |  14 |
+|       ID       |     flag     |  14 |
+|       DO       |      do      |  14 |
+|       ID       |     cont     |  15 |
+|     ASSIGN     |      :=      |  15 |
+|       ID       |     cont     |  15 |
+|      PLUS      |      +       |  15 |
+| INTEGER_CONST  |      1       |  15 |
+|     PCOMMA     |      ;       |  15 |
+|       IF       |      if      |  16 |
+|       ID       |     cont     |  16 |
+|     EQUAL      |      =       |  16 |
+| INTEGER_CONST  |      5       |  16 |
+|      THEN      |     then     |  17 |
+|       ID       |      z       |  17 |
+|     ASSIGN     |      :=      |  17 |
+|       ID       |      x       |  17 |
+|     MINUS      |      -       |  17 |
+|       ID       |      y       |  17 |
+|     PCOMMA     |      ;       |  17 |
+|       ID       |      z       |  18 |
+|     ASSIGN     |      :=      |  18 |
+|       ID       |      z       |  18 |
+|      DIV       |      /       |  18 |
+| INTEGER_CONST  |      10      |  18 |
+|      PLUS      |      +       |  18 |
+| INTEGER_CONST  |      4       |  18 |
+|     MINUS      |      -       |  18 |
+| INTEGER_CONST  |      3       |  18 |
+|     PCOMMA     |      ;       |  18 |
+|      END       |     end      |  19 |
+|       IF       |      if      |  20 |
+|       ID       |     cont     |  20 |
+|    DIFERENT    |      !       |  20 |
+| INTEGER_CONST  |      10      |  20 |
+|      THEN      |     then     |  21 |
+|       ID       |     flag     |  21 |
+|     ASSIGN     |      :=      |  21 |
+|     FALSE      |    false     |  21 |
+|     PCOMMA     |      ;       |  21 |
+|      END       |     end      |  22 |
+|      END       |     end      |  23 |
+|      END       |     end      |  24 |
++----------------+--------------+-----+
+
+TABELA DE SIMBOLOS
++-------+---------+--------------+---------+
+|  Name |   Type  |    Value     | Address |
++-------+---------+--------------+---------+
+|  flag | BOOLEAN |     true     |    0    |
+|  cont | INTEGER |      0       |    4    |
+| input | INTEGER |     None     |    8    |
+|   x   |   REAL  |     3.7      |    12   |
+|   y   |   REAL  |     0.45     |    16   |
+|   z   |   REAL  |      x       |    20   |
+| teste |  STRING | "Estou aqui" |    24   |
++-------+---------+--------------+---------+
+
+ERROS
++-------+-----+---------+
+| Value | Row | Message |
++-------+-----+---------+
++-------+-----+---------+
+
+SEQUÊNCIA DE COMPILAÇÃO
++----------------+------------------+
+|     Token      |     Function     |
++----------------+------------------+
+|    PROGRAM     |     program      |
+|       ID       |     program      |
+|     PCOMMA     |     program      |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|    BOOLEAN     |       type       |
+|     PCOMMA     |   declaration    |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|     COMMA      |     var_list     |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|    INTEGER     |       type       |
+|     PCOMMA     |   declaration    |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|     COMMA      |     var_list     |
+|       ID       |     var_list     |
+|     COMMA      |     var_list     |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|      REAL      |       type       |
+|     PCOMMA     |   declaration    |
+|      VAR       |   declaration    |
+|       ID       |     var_list     |
+|    TWOPOINT    |     var_list     |
+|     STRING     |       type       |
+|     PCOMMA     |   declaration    |
+|     BEGIN      |      block       |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+| INTEGER_CONST  |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|      TRUE      |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|  FLOAT_CONST   |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|  FLOAT_CONST   |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+| STRING_LITERAL |      factor      |
+|     PCOMMA     |     command      |
+|     WRITE      |      write       |
+|    LBRACKET    |      factor      |
+|       ID       |      factor      |
+|      DIV       |    term_prime    |
+|       ID       |      factor      |
+|    RBRACKET    |      factor      |
+|     PCOMMA     |      write       |
+|      READ      |       read       |
+|       ID       |       read       |
+|     PCOMMA     |       read       |
+|     WHILE      | while_statement  |
+|       ID       |      factor      |
+|       DO       | while_statement  |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|       ID       |      factor      |
+|      PLUS      | expression_prime |
+| INTEGER_CONST  |      factor      |
+|     PCOMMA     |     command      |
+|       IF       |   if_statement   |
+|       ID       |      factor      |
+|     EQUAL      |    term_prime    |
+| INTEGER_CONST  |      factor      |
+|      THEN      |   if_statement   |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|       ID       |      factor      |
+|     MINUS      | expression_prime |
+|       ID       |      factor      |
+|     PCOMMA     |     command      |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|       ID       |      factor      |
+|      DIV       |    term_prime    |
+| INTEGER_CONST  |      factor      |
+|      PLUS      | expression_prime |
+| INTEGER_CONST  |      factor      |
+|     MINUS      | expression_prime |
+| INTEGER_CONST  |      factor      |
+|     PCOMMA     |     command      |
+|      END       |     command      |
+|       IF       |   if_statement   |
+|       ID       |      factor      |
+|    DIFERENT    |    term_prime    |
+| INTEGER_CONST  |      factor      |
+|      THEN      |   if_statement   |
+|       ID       |     command      |
+|     ASSIGN     |     command      |
+|     FALSE      |      factor      |
+|     PCOMMA     |     command      |
+|      END       |     command      |
+|      END       |     command      |
+|      END       |     command      |
+|      END       |     command      |
+|      END       |     command      |
+|      END       |     command      |
++----------------+------------------+
+

@@ -1,7 +1,7 @@
-import sys
 import string
 
 from prettytable import PrettyTable
+from utils import Error
 
 RESERVED = {
     'program': 'PROGRAM',
@@ -91,10 +91,6 @@ class Scanner:
             while i < len(line):
                 char = line[i]
 
-                if len(self.errors) > 0:
-                    print(self.errors)
-                    sys.exit()
-
                 if self.state == 0:
                     self.lexeme.append(char)
                     i += 1
@@ -123,7 +119,7 @@ class Scanner:
                             self.state = 0
                             self.tokens.append(Token(type, lexeme, row))
                         elif not char.isspace() and char != '.':
-                            self.errors.append((row, i))
+                            self.errors.append(Error(lexeme, row, 'Lexical error'))
 
                 # operator or reserved word
                 elif self.state == 1:
@@ -164,7 +160,7 @@ class Scanner:
                         self.state = 4
                         i += 1
                     else:
-                        self.errors.append((row, i))
+                        self.errors.append(Error(lexeme, row, 'Lexical error'))
 
                 # real digitis
                 elif self.state == 4:
@@ -213,7 +209,7 @@ class Scanner:
                         self.tokens.append(Token(type, lexeme, row))
                         i += 1
                     else:
-                        self.errors.append((row, i))
+                        self.errors.append(Error(lexeme, row, 'Lexical error'))
 
                 # !=
                 elif self.state == 8:
@@ -225,7 +221,7 @@ class Scanner:
                         self.tokens.append(Token(type, lexeme, row))
                         i += 1
                     else:
-                        self.errors.append((row, i))
+                        self.errors.append(Error(lexeme, row, 'Lexical error'))
 
                 # :=
                 elif self.state == 9:
@@ -257,4 +253,4 @@ class Scanner:
                         type = "STRING_LITERAL"
                         self.tokens.append(Token(type, lexeme, row))
                     else:
-                        self.errors.append((row, i))
+                        self.errors.append(Error(lexeme, row, 'Lexical error'))
