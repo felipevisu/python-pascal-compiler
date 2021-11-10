@@ -32,6 +32,8 @@ python main.py codes/code3.pas
 python main.py codes/code7.pas
 ```
 
+O resultados da compilação fica disponível na pasta `results`. 
+
 ***
 
 ### Lexemas e tokens
